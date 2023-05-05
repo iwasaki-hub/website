@@ -54,6 +54,7 @@ function deleteCheck(event) {
     const todo = item.parentElement;
     // Animation
     todo.classList.add("fall");
+    removeLocalTodos(todo);
     todo.addEventListener("transitionend", function () {
       todo.remove();
     });
@@ -139,3 +140,26 @@ function getTodos() {
     todoList.appendChild(todoDiv);
   });
 }
+
+function removeLocalTodos(todo) {
+  let todos;
+
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+
+  const todoIndex = todo.children[0].innerText;
+  todos.splice(todos.indexOf(todoIndex), 1);
+
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+/*
+const todos = ["apple", "john", "donut", "babyboy"];
+console.log(todos.indexOf("john"));
+const johnIndex = todos.indexOf("john");
+todos.splice(johnIndex, 1);
+console.log(todos);
+*/
